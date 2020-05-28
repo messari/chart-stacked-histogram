@@ -1,23 +1,42 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+### Eclipse ###
+.checkstyle
+.classpath
+.metadata
+.loadpath
+.project
+.settings/
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+### Gradle ###
+**/.gradle/
+**/build/
 
-# testing
-/coverage
+### Intellij ###
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+**/src/main/generated/
+**/generated/
+**/generated_src/
 
-# production
-/build
-
-# misc
+### Mac OSX + Windows ###
 .DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+Thumbs.db
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+### Node ###
+/node_modules/
+npm-debug.log
+
+### SublimeText + TextMate ###
+*.sublime-workspace
+*.sublime-project
+*.tmproj
+*.tmproject
+
+### Vim ###
+*.sw[op]
+.tern-port
+
+### Project Specific ###
+messari-app/public/robots.txt
