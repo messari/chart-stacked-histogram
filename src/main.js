@@ -1,8 +1,6 @@
 import React from 'react';
-import ReactDom from 'react-dom';
 
-import
-// { CIQ } from  // Enable to access CIQ namespace
+import // { CIQ } from  // Enable to access CIQ namespace
 './chartiq_config/presets/base';
 import './chartiq_config/presets/examples';
 
@@ -17,11 +15,11 @@ import { AdvancedChart, getDefaultConfig } from './chartiq';
 // CIQ.debug = true; // Enables debugging
 
 const pluginsToLoadLazy = {
-	// timespanevent,
-	// crypto,
-	// scriptiq,
-	// tfc
-}
+  // timespanevent,
+  // crypto,
+  // scriptiq,
+  // tfc
+};
 
 const config = getDefaultConfig();
 
@@ -31,24 +29,14 @@ config.addOns.tooltip = null;
 
 // Optional callback function to access chart engine and uiContext
 const chartInitialized = ({ chartEngine, uiContext }) => {
-	// chartEngine provides access to chart engine CIQ.ChartEngine
-	// uiContext provides access to UI component interaction CIQ.UI.Context
+  // chartEngine provides access to chart engine CIQ.ChartEngine
+  // uiContext provides access to UI component interaction CIQ.UI.Context
 };
 
-// comment rendering to DOM if used only as export for example in CRA App.js
-const el = document.querySelector('#app');
-if (el) {
-	ReactDom.render(<AdvancedChart
-		config={config}
-		chartInitialized={chartInitialized}
-		pluginsToLoadLazy={pluginsToLoadLazy}
-		/>,
-		el
-	);
-}
-
-export default (props) => (<AdvancedChart
-	config={config}
-	chartInitialized={chartInitialized}
-	pluginsToLoadLazy={pluginsToLoadLazy}
-	/>);
+export default (props) => (
+  <AdvancedChart
+    config={config}
+    chartInitialized={chartInitialized}
+    pluginsToLoadLazy={pluginsToLoadLazy}
+  />
+);
