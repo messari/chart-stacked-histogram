@@ -7,57 +7,53 @@ const HistogramButton = ({}) => {
   const [isOn, setIsOn] = useState(false);
   const handleStackHistogram = () => {
     if (isOn) {
-      // context.stx.chart.seriesRenderers['Stacked Histogram'].removeAllSeries();
       context.stx.removeSeriesRenderer(
         context.stx.chart.seriesRenderers['Stacked Histogram'],
       );
       context.stx.removeSeries('Close');
 
-      // hide the primay axis, we are not using it with histograms
-      // context.stx.chart.seriesRenderers['_main_series'].params.hidden = false;
+      // re-deisplay the main series and axis
+      context.stx.chart.seriesRenderers['_main_series'].params.hidden = false;
       context.stx.setYAxisPosition(context.stx.chart.yAxis, 'right');
 
-      Object.values(context.stx.chart.seriesRenderers).forEach((renderer) => {
-        const { params } = renderer;
-        if (params.isComparison == true) {
-          params.hidden = false;
-          context.stx.removeSeriesRenderer(renderer);
-          context.stx.addSeries(params.symbol, {
-            name: 'comparison ' + params.symbol,
-            symbolObject: params.symbolObject,
+      Object.values(context.stx.chart.series).forEach((renderer) => {
+        const { parameters } = renderer;
+        if (parameters.isComparison == true) {
+          parameters.hidden = false;
+          context.stx.addSeries(parameters.symbol, {
+            name: 'comparison ' + parameters.symbol,
+            symbolObject: parameters.symbolObject,
             isComparison: true,
-            color: params.color,
-            pattern: params.pattern,
-            width: params.width || 1,
+            color: parameters.color,
+            pattern: parameters.pattern,
+            width: parameters.width || 1,
             data: { useDefaultQuoteFeed: true },
             forceData: true,
-            loadData: false,
           });
         }
       });
 
-      // hide the primay series line, we are not using it with histograms
       context.stx.home(); // align the chnart to the edge.
-      context.stx.setChartType('candle');
-      context.stx.setChartScale('percent');
-      context.stx.calculateYAxisMargins(context.stx.chart.yAxis);
-      context.stx.draw();
-      context.stx.chart.seriesRenderers['_main_series'].ready();
       setIsOn(false);
     } else {
       setIsOn(true);
+
+      // remove the line renderers
+      for (const id in context.stx.chart.seriesRenderers) {
+        const renderer = context.stx.chart.seriesRenderers[id];
+        if (renderer.params.isComparison == true)
+          context.stx.removeSeriesRenderer(renderer);
+      }
+
+      // this is so you can access the "Close" from the stacked histogram
+      context.stx.addSeries('Close', {
+        loadData: false,
+      });
+
       // hide the primay axis, we are not using it with histograms
       context.stx.setYAxisPosition(context.stx.chart.yAxis, 'none');
       context.stx.chart.seriesRenderers['_main_series'].params.hidden = true;
 
-      // hide the primay series line, we are not using it with histograms
-      context.stx.setChartType('none');
-
-      Object.values(context.stx.chart.seriesRenderers).forEach((renderer) => {
-        if (renderer.params.isComparison == true) {
-          renderer.params.hidden = true;
-        }
-      });
       let histRenderer;
       if (context.stx.chart.seriesRenderers['Stacked Histogram'] != null) {
         histRenderer = context.stx.chart.seriesRenderers['Stacked Histogram'];
@@ -76,17 +72,16 @@ const HistogramButton = ({}) => {
           }),
         );
       }
-      context.stx.setYAxisPosition(context.stx.chart.yAxis, 'none');
-      context.stx.addSeries('Close', {
-        loadData: false,
-      });
+
+      // clear the renderer, just in case
+      histRenderer.removeAllSeries();
+
       histRenderer.removeAllSeries();
       histRenderer.attachSeries(context.stx.chart.symbol);
       Object.values(context.stx.chart.series).forEach((single) => {
         histRenderer.attachSeries(single.id);
       });
       histRenderer.ready();
-      context.stx.setChartScale('linear');
     }
   };
   return (
