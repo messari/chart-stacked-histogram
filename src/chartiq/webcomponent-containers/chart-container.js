@@ -112,14 +112,14 @@ class ChartIQChartContainer extends HTMLElement {
       self.restoreDrawings(stx, stx.chart.symbol);
       if (cb) cb();
     }
-    // stx.importLayout(JSON.parse(datum), {
-    //   managePeriodicity: true,
-    //   cb: closure,
-    // });
-    stx.importLayout(LAYOUT, {
+    stx.importLayout(JSON.parse(datum), {
       managePeriodicity: true,
       cb: closure,
     });
+    // stx.importLayout(LAYOUT, {
+    //   managePeriodicity: true,
+    //   cb: closure,
+    // });
   }
 
   saveLayout(obj) {
