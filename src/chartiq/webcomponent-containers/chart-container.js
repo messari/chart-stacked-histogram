@@ -1,4 +1,5 @@
 import { CIQ } from 'chartiq/js/componentUI';
+import { LAYOUT } from '../examples/layout';
 
 /**
  * Chart setup web component `<chartiq-chart-container>`.
@@ -111,7 +112,11 @@ class ChartIQChartContainer extends HTMLElement {
       self.restoreDrawings(stx, stx.chart.symbol);
       if (cb) cb();
     }
-    stx.importLayout(JSON.parse(datum), {
+    // stx.importLayout(JSON.parse(datum), {
+    //   managePeriodicity: true,
+    //   cb: closure,
+    // });
+    stx.importLayout(LAYOUT, {
       managePeriodicity: true,
       cb: closure,
     });
